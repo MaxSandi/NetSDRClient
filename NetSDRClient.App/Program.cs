@@ -1,4 +1,4 @@
-﻿using NetSDRClient.App.Services;
+﻿using NetSDRClientApp.Services;
 
 var networkService = new NetSDRNetworkService("localhost");
 var client = new NetSDRClientApp.NetSDRClient(networkService, "samples.bin");
