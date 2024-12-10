@@ -5,6 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSDRClient.App", "NetSDRClient.App\NetSDRClient.App.csproj", "{9F96C934-C028-4C05-B5E5-76155FCFE16A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSDRClient.Tests", "NetSDRClient.Tests\NetSDRClient.Tests.csproj", "{CDA9D71F-2103-41DD-84BE-59D89BC45C61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,6 +17,10 @@ Global
 		{9F96C934-C028-4C05-B5E5-76155FCFE16A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F96C934-C028-4C05-B5E5-76155FCFE16A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F96C934-C028-4C05-B5E5-76155FCFE16A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA9D71F-2103-41DD-84BE-59D89BC45C61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA9D71F-2103-41DD-84BE-59D89BC45C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA9D71F-2103-41DD-84BE-59D89BC45C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA9D71F-2103-41DD-84BE-59D89BC45C61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
