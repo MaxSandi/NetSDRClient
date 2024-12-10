@@ -6,6 +6,7 @@
         Task<bool> DisconnectAsync();
 
         Task<bool> SendCommandAsync(byte[] command);
+        Task<bool> SendCommandAsync(Memory<byte> command);
 
         Task<byte[]> ReceiveDataAsync();
     }

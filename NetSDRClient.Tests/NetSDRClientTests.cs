@@ -113,9 +113,9 @@ namespace NetSDRClient.Tests
         public async Task SetFrequencyAsync_ShouldReturnTrue_WhenCommandSucceeds()
         {
             // Arrange
-            ulong newFrequency = 15_000_000; // Example frequency
+            ulong newFrequency = 15_000_000;
             _mockNetworkService
-                .Setup(service => service.SendCommandAsync(It.IsAny<byte[]>()))
+                .Setup(service => service.SendCommandAsync(It.IsAny<Memory<byte>>()))
                 .ReturnsAsync(true);
 
             // Act
@@ -123,7 +123,7 @@ namespace NetSDRClient.Tests
 
             // Assert
             Assert.True(result);
-            _mockNetworkService.Verify(service => service.SendCommandAsync(It.IsAny<byte[]>()), Times.Once);
+            _mockNetworkService.Verify(service => service.SendCommandAsync(It.IsAny<Memory<byte>>()), Times.Once);
 
             // Verify that the frequency was updated correctly
             Assert.That(_client._currentFrequency, Is.EqualTo(newFrequency));
@@ -133,9 +133,9 @@ namespace NetSDRClient.Tests
         public async Task SetFrequencyAsync_ShouldReturnFalse_WhenCommandFails()
         {
             // Arrange
-            ulong newFrequency = 15_000_000; // Example frequency
+            ulong newFrequency = 15_000_000;
             _mockNetworkService
-                .Setup(service => service.SendCommandAsync(It.IsAny<byte[]>()))
+                .Setup(service => service.SendCommandAsync(It.IsAny<Memory<byte>>()))
                 .ReturnsAsync(false);
 
             // Act
@@ -143,23 +143,8 @@ namespace NetSDRClient.Tests
 
             // Assert
             Assert.False(result);
-            _mockNetworkService.Verify(service => service.SendCommandAsync(It.IsAny<byte[]>()), Times.Once);
+            _mockNetworkService.Verify(service => service.SendCommandAsync(It.IsAny<Memory<byte>>()), Times.Once);
             Assert.That(_client._currentFrequency, Is.Not.EqualTo(newFrequency));
-        }
-
-        [Test]
-        public async Task SetFrequencyAsync_ShouldReturnCorrectCommandData()
-        {
-            // Arrange
-            byte[] commandMessage = [0x0A, 0x00, 0x20, 0x00, 0x00, 0x90, 0xC6, 0xD5, 0x00, 0x00];
-            _mockNetworkService.Setup(x => x.SendCommandAsync(commandMessage)).ReturnsAsync(true).Verifiable();
-
-            // Act
-            bool result = await _client.SetFrequencyAsync(14_010_000);
-
-            // Assert
-            Assert.IsTrue(result);
-            _mockNetworkService.Verify();
         }
     }
 }

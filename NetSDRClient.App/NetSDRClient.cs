@@ -2,6 +2,7 @@
 using NetSDRClientApp.Helpers;
 using NetSDRClientApp.Model;
 using NetSDRClientApp.Services;
+using System.Buffers;
 using System.Collections.Concurrent;
 
 namespace NetSDRClientApp
@@ -71,10 +72,11 @@ namespace NetSDRClientApp
 
         public async Task<bool> SetFrequencyAsync(ulong frequency)
         {
-            var startParameters = CreateSetFrequencyParameters(ChannelId.Channel1, frequency);
-            var message = CreateControlItemMessage((ushort)ControlItemType.SetFrequency, NetSDRHelper.StructToBytes(startParameters));
+            ushort messageLength = 10; // 4 fixed + 6 parameters
+            using var memoryOwner = MemoryPool<byte>.Shared.Rent(messageLength);
+            var messageMemory = NetSDRHelper.PrepareSetFrequencyMessage(memoryOwner, messageLength, ChannelId.Channel1, frequency);
 
-            var result = await _networkService.SendCommandAsync(message);
+            var result = await _networkService.SendCommandAsync(messageMemory);
             if (!result)
                 return false;
 
@@ -211,6 +213,22 @@ namespace NetSDRClientApp
             //TODO: add check TargetDataItem0
 
             return data;
+        }
+        #endregion
+
+        #region Deprecated
+        // for benchmark
+        public async Task<bool> SetFrequencyOldAsync(ulong frequency)
+        {
+            var startParameters = CreateSetFrequencyParameters(ChannelId.Channel1, frequency);
+            var message = CreateControlItemMessage((ushort)ControlItemType.SetFrequency, NetSDRHelper.StructToBytes(startParameters));
+
+            var result = await _networkService.SendCommandAsync(message);
+            if (!result)
+                return false;
+
+            _currentFrequency = frequency;
+            return true;
         }
         #endregion
     }

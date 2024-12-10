@@ -16,7 +16,13 @@ namespace NetSDRClient.Benchmarks
         }
 
         [Benchmark]
-        public async Task SetFrequencyAsyncBenchmark()
+        public async Task SetFrequencyOldBenchmark()
+        {
+            await _client.SetFrequencyOldAsync(14_010_000);
+        }
+
+        [Benchmark]
+        public async Task SetFrequencyBenchmark()
         {
             await _client.SetFrequencyAsync(14_010_000);
         }

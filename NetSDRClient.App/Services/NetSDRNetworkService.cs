@@ -79,6 +79,26 @@
             }
         }
 
+        public async Task<bool> SendCommandAsync(Memory<byte> command)
+        {
+            try
+            {
+                if (!IsConnected)
+                    return false;
+
+                if (_tcpStream is not null && _tcpStream.CanWrite)
+                {
+                    await _tcpStream.WriteAsync(command);
+                    return await HandleSendCommandResponseAsync(command.Length);
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public async Task<byte[]> ReceiveDataAsync()
         {
             try
