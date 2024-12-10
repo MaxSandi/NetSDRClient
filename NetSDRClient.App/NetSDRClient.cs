@@ -1,4 +1,5 @@
-﻿using NetSDRClientApp.Helpers;
+﻿using NetSDRClient.App.Model.MessageType;
+using NetSDRClientApp.Helpers;
 using NetSDRClientApp.Model;
 using NetSDRClientApp.Services;
 using System.Collections.Concurrent;
@@ -87,7 +88,7 @@ namespace NetSDRClientApp
         {
             byte[] message = new byte[2 + 2 + parameters.Length]; // 2 - header, 2 - controlItem
 
-            var header = CreateHeader(0, (ushort)message.Length);
+            var header = CreateHeader((byte)HostMessageType.SetControlItem, (ushort)message.Length);
             message[0] = (byte)(header & 0xFF);
             message[1] = (byte)((header >> 8) & 0xFF);
             message[2] = (byte)(controlItem & 0xFF);
@@ -202,11 +203,14 @@ namespace NetSDRClientApp
 
         private byte[] ParsingData(byte[] data)
         {
-            // TODO: check  Unsolicited Control Item and change 
             var messageType = NetSDRHelper.ParseMessageHeader(data.AsSpan(0, 2)).type;
+            if (messageType == (byte)TargetMessageType.UnsolicitedControlItem)
+            {
+                //TODO: parse unsolicited control item
+            }
+            //TODO: add check TargetDataItem0
 
             return data;
-
         }
         #endregion
     }
